@@ -83,7 +83,7 @@
     		});
     	});
     	
-    	$("#signUpBtn").on('click', function(){
+    	$("#signUpForm").on('submit', function(){
     		let loginId = $("#loginId").val().trim();
     		let password = $("#password").val().trim();
     		let confirmPassword = $("#confirmPassword").val().trim();    		
@@ -124,7 +124,7 @@
     		
     		$.post(url,params)
     		.done(function(data){
-    			if(data.code==200){
+    			if(data.result == "성공"){
     				alert("가입을 환영합니다. 로그인해주세요.")
     				location.href("/user/sign-in-view");
     			} else{

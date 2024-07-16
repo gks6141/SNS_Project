@@ -6,7 +6,7 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	<div class="shadow-box">
 		<h1>로그인</h1>
-		<form action="/user/login" method="post">
+		<form id="loginForm" action="/user/login" method="post">
 			<input type="text" name="loginId" id="loginId" class="form-control mt-3" placeholder="아이디를 입력하세요">
 			<input type="password" name="password" id="password" class="form-control mt-3" placeholder="비밀번호를 입력하세요">
 			<div class="d-flex justify-content-end mt-3">
@@ -22,7 +22,7 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function(){
-			$("form").on('submit',function(){
+			$("#loginForm").on('submit',function(){
 				let loginId = $("#loginId").val().trim();
 				let password = $("#password").val().trim();
 				

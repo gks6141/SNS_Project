@@ -1,0 +1,44 @@
+package com.sns.post;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sns.post.bo.PostBO;
+import com.sns.post.entity.PostEntity;
+
+import jakarta.servlet.http.HttpSession;
+
+@RestController
+@RequestMapping("/post")
+public class PostRestController {
+	@Autowired
+	private PostBO postBO;
+	
+	@PostMapping("/create")
+	public Map<String,Object> create(HttpSession session,
+			@RequestParam("writeTextArea") String content,
+			@RequestParam("file") String imagePath) {
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		PostEntity post= postBO.addPostEntityByUserIdContentImagePath(userId, content, imagePath);
+		
+		Map<String,Object> result = new HashMap<>();
+		
+		if(post != null) {
+			result.put("code", 200);
+			result.put("result", "성공");			
+		} else {
+			result.put("code", 500);
+			result.put("error_message", "DB에 입력 실패");	
+		}
+		
+		return result;
+	}
+	
+}
