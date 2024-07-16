@@ -1,6 +1,6 @@
 package com.sns.user.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,9 +20,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(toBuilder =true)
 @Getter
-@Table(name="user")
+@Builder
+@Table(name = "user")
 @Entity
 public class UserEntity {
 	@Id
@@ -38,14 +38,11 @@ public class UserEntity {
 	
 	private String email;
 	
-	@Column(name = "profileImageUrl")
-	private String profileImageUrl;
-	
-	@Column(name= "createdAt")
 	@CreationTimestamp
-	private LocalDate createdAt;
+	@Column(name = "createdAt")
+	private LocalDateTime createdAt;
 	
-	@Column(name= "updatedAt")
 	@UpdateTimestamp
-	private LocalDate updatedAt;
+	@Column(name = "updatedAt")
+	private LocalDateTime updatedAt;
 }

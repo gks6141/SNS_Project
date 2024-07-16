@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center">
+	<!-- 글쓰기 영역 -->
+	<div class="content-box">
+			<div class="write-box border rounded m-3">
+			<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
+			
+			<div class="d-flex justify-content-between">
+				<div class="file-upload d-flex">
+					<img width="35" src="/image/file-upload.png">
+				</div>
+				<button id="writeBtn" class="btn btn-info">게시</button>
+			</div>
+		</div>
+	
+	<!-- 타임라인 영역 -->
+		<div class="timeline-box my-5">
+			<div class="card border w-100 mt-3">
+				
+				<!-- 헤드 -->
+				<div class="headbox d-flex justify-content-between align-items-center p-2">
+					<span class="font-weight-bold">marobiana</span>
+					<a href="#"  class="more-btn">
+						<img width="30" alt="메뉴" src="/image/more-icon.png">
+					</a>
+				</div>
+				
+				
+				<!-- 올린 사진 -->
+				<div class="card-img">
+					<img alt="사진" src="/image/center-image.jpg" class="w-100">
+				</div>
+				
+				<!-- 좋아요 -->
+				<div class="card-like mt-3">
+					<a href="#">
+						<img alt="좋아요" src="/image/heart-icon.png" width="30">
+					</a>
+					<span th:text="|좋아요 13개|">좋아요 11개</span>
+				</div>
+				
+				<!-- 글 -->
+				<div class="card-post m-3">
+					<span th:text="|작성자|" class="font-weight-bold"></span>
+					<span th:text="|댓글|"></span>
+				</div>
+				
+				<!-- 댓글 제목 -->
+				<div class="card-comment-title border-bottom">
+					<span class="font-weight-bold ml-3 mb-1">댓글</span>
+				</div>
+				
+				<!-- 댓글 -->
+				<div class="card-comment-list m-2"> 
+					<div class="card-comment m-1">
+						<span class="font-weight-bold">작성자</span>
+						<span>글</span>
+						<a href="#" class="comment-del-btn">
+							<img alt="취소" src="/image/x-icon.png" width="10" height="10">
+						</a>
+					</div>
+				</div>
+				
+				<!-- 댓글 달기 -->
+				<div class="comment-write d-flex border-top mt-2">
+					<input type="text" name="comment" id="comment"  class="form-control border-0 mr-2" placeholder="댓글 달기">
+					<button type="button" class="comment-btn btn btn-light">게시</button>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+
+    </script>
+</th:block>
+</html>

@@ -11,11 +11,13 @@ public class UserBO {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public UserEntity getUserByloginId(String loginId) {
-		return userRepository.findUserByLoginId(loginId);
+	public UserEntity getUserEntityByLoginId(String loginId) {
+		return userRepository.findByLoginId(loginId);
 	}
 	
-	
+	public UserEntity getUserEntityByLoginIdPassword(String loginId, String password) {
+		return userRepository.findByLoginIdAndPassword(loginId,password);
+	}
 	
 	public UserEntity addUser(String loginId, String password, String name, String email) {
 		return userRepository.save(UserEntity.builder()
