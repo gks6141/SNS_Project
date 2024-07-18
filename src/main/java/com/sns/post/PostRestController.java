@@ -24,11 +24,17 @@ public class PostRestController {
 	public Map<String,Object> create(HttpSession session,
 			@RequestParam("writeTextArea") String content,
 			@RequestParam("file") String imagePath) {
-		Integer userId = (Integer)session.getAttribute("userId");
-		
-		PostEntity post= postBO.addPostEntityByUserIdContentImagePath(userId, content, imagePath);
 		
 		Map<String,Object> result = new HashMap<>();
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		if(userId == null) {
+			result.put("code", 403);
+			result.put("error_message", "로그인 상태가 아닙니다.");
+		}
+		PostEntity post= postBO.addPostEntityByUserIdContentImagePath(userId, content, imagePath);
+		
+		
 		
 		if(post != null) {
 			result.put("code", 200);

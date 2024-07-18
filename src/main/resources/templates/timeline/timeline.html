@@ -6,12 +6,16 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	<div class="content-box">
 		<!-- 글쓰기 영역 -->
-			<div th:if="${session.userId == null}" class="write-box border rounded m-3">
+			<div th:if="${session.userId != null}" class="write-box border rounded m-3">
 				<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
-			
+				
 				<div class="d-flex justify-content-between">
-					<div class="file-upload d-flex">
-						<img id="file" width="35" src="/image/file-upload.png">
+					<div class="file-upload d-flex align-items-center">
+						<input type="file" id="file" class="d-none" accept=".jpg, .png, .gif">
+						
+						<a href="#" id="fileUploadBtn"><img id="file" width="35" src="/image/file-upload.png"></a>
+						
+						<div id="fileName" class="ml-2">sun.png</div>
 					</div>
 					<button id="writeBtn" class="btn btn-info">게시</button>
 				</div>
@@ -78,7 +82,77 @@
 
 <th:block layout:fragment="script">
     <script>
-
+		$(document).ready(function(){
+			//이미지 a태그 클릭 => 숨겨져 있는 id="file" 태그 동작시킴
+			$("#fileUploadBtn").on('click', function(e){
+				e.preventDefault(); // 위로 올라가는 현상 방지
+				// alert("클릭");
+				$("#file").click();
+			});
+			
+			//파일이 선택될 때 --> 유효성 체크 , 파일명 노출
+			$("#file").on('change', function(e){
+				//취소를 누를 때 처리(파일이 비워지므로 .name에서 에러 발생)
+				let file = e.target.files[0];
+				if (file == null ){
+					$("#file").val("");
+					$("#fileName").text("");
+					return;
+				}
+				
+				//alert("이미지 선택");
+				let fileName = e.target.files[0].name; // bord.jpg
+				console.log(fileName);
+				
+				//확장자 validation
+				let ext = fileName.split(".").pop().toLowerCase();
+				console.log(ext);
+				
+				if (ext != "gif" && ext != "png" && ext != "jpg") {
+					alert("이미지 파일만 업로드 할 수 있습니다.");
+					$("#file").val("");// 파일 태그에 올라온 것 제거(보이지 않지만 꼭! 처리)
+					$("#fileName").text(""); // 보여지고 있는 파일명 초기화
+					return;
+				}
+				
+				// 2. 파일명 노출
+				$("#fileName").text(fileName);
+			});
+			
+			$("#writeBtn").on('click', function(e){
+				e.preventDefault();
+				let content= $("#writeTextArea").val();
+				let fileName = $("#file").val();
+				
+				console.log(content);
+				console.log(fileName);
+				
+				//유효성 검사 
+				if(file == ""){
+					alert("사진을 입력해주세요.");
+					return;
+				}
+				
+				
+				let formData = new FormData();
+				formData.append("content",content);
+				formData.append("file",$("#file")[0].files[0]);
+				
+				$.ajax({
+					method:"post"
+					,url:"post/create"
+					,data:formData
+					,enctype:"multipart/form-data"
+					,processData:false
+					,contentType:false
+					,success:function(data){
+						
+					}
+				})
+				
+			});
+			
+		});
     </script>
 </th:block>
 </html>
