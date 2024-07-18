@@ -6,7 +6,7 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	<div class="content-box">
 		<!-- 글쓰기 영역 -->
-			<div th:if="${session.userId != null}" class="write-box border rounded m-3">
+			<div th:if="${session.userId == null}" class="write-box border rounded m-3">
 				<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
 			
 				<div class="d-flex justify-content-between">
