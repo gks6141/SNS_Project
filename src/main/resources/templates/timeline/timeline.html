@@ -124,14 +124,19 @@
 				let content= $("#writeTextArea").val();
 				let fileName = $("#file").val();
 				
+				
+				
+				//유효성 검사 
+				if(fileName == ""){
+					alert("사진을 입력해주세요.");
+					return ;
+				}
+				
+				
+				
 				console.log(content);
 				console.log(fileName);
 				
-				//유효성 검사 
-				if(file == ""){
-					alert("사진을 입력해주세요.");
-					return;
-				}
 				
 				
 				let formData = new FormData();
@@ -140,13 +145,22 @@
 				
 				$.ajax({
 					method:"post"
-					,url:"post/create"
+					,url:"/timeline/post/create"
 					,data:formData
 					,enctype:"multipart/form-data"
 					,processData:false
 					,contentType:false
 					,success:function(data){
-						
+						if(data.code == 200){
+							location.reload();
+						} else if(data.code == 403){
+							alert(data.error_message);
+						} else{
+							alert(data.error_message);
+						}
+					}
+					,error:function(e){
+						alert("에러 발생");
 					}
 				})
 				
