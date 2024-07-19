@@ -83,7 +83,8 @@
     		});
     	});
     	
-    	$("#signUpForm").on('submit', function(){
+    	$("#signUpForm").on('submit', function(e){
+    		e.preventDefault();
     		let loginId = $("#loginId").val().trim();
     		let password = $("#password").val().trim();
     		let confirmPassword = $("#confirmPassword").val().trim();    		

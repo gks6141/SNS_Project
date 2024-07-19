@@ -22,7 +22,8 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function(){
-			$("#loginForm").on('submit',function(){
+			$("#loginForm").on('submit',function(e){
+				e.preventDefault();
 				let loginId = $("#loginId").val().trim();
 				let password = $("#password").val().trim();
 				
@@ -43,7 +44,6 @@
 				$.post(url,params)
 				.done(function(data){
 					if(data.result == "성공"){
-						
 						location.href = "/timeline/timeline-view";
 					} else{
 						alert("실패");

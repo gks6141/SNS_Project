@@ -15,7 +15,7 @@
 						
 						<a href="#" id="fileUploadBtn"><img id="file" width="35" src="/image/file-upload.png"></a>
 						
-						<div id="fileName" class="ml-2">sun.png</div>
+						<div id="fileName" class="ml-2"></div>
 					</div>
 					<button id="writeBtn" class="btn btn-info">게시</button>
 				</div>
@@ -24,6 +24,7 @@
 		<!-- 타임라인 영역 -->
 		<div class="timeline-box my-5">
 			<div th:each="post : ${postList}" class="card border w-100 mt-3">
+			
 				
 				<!-- 헤드 -->
 				<div class="headbox d-flex justify-content-between align-items-center p-2">
@@ -36,7 +37,7 @@
 				
 				<!-- 올린 사진 -->
 				<div class="card-img">
-					<img alt="사진" src="/image/center-image.jpg" class="w-100">
+					<img alt="사진" th:src="${post.imagePath}" class="w-100">
 				</div>
 				
 				<!-- 좋아요 -->
@@ -49,8 +50,8 @@
 				
 				<!-- 글 -->
 				<div class="card-post m-3">
-					<span th:text="|작성자|" class="font-weight-bold"></span>
-					<span th:text="|댓글|"></span>
+					<span th:text="${post.userId}" class="font-weight-bold"></span>
+					<span th:text="${post.content}"></span>
 				</div>
 				
 				<!-- 댓글 제목 -->
@@ -71,8 +72,8 @@
 				
 				<!-- 댓글 달기 -->
 				<div class="comment-write d-flex border-top mt-2">
-					<input type="text" name="comment" id="comment"  class="form-control border-0 mr-2" placeholder="댓글 달기">
-					<button type="button" class="comment-btn btn btn-light">게시</button>
+					<input type="text" name="comment"  class="comment form-control border-0 mr-2" placeholder="댓글 달기">
+					<button type="button" class="comment-btn btn btn-light" th:data-post-id="${post.id}" th:data-user-id="${session.userId}">게시</button>
 				</div>
 			</div>
 	
@@ -83,6 +84,7 @@
 <th:block layout:fragment="script">
     <script>
 		$(document).ready(function(){
+			
 			//이미지 a태그 클릭 => 숨겨져 있는 id="file" 태그 동작시킴
 			$("#fileUploadBtn").on('click', function(e){
 				e.preventDefault(); // 위로 올라가는 현상 방지
@@ -131,14 +133,10 @@
 					alert("사진을 입력해주세요.");
 					return ;
 				}
-				
-				
-				
+
 				console.log(content);
 				console.log(fileName);
-				
-				
-				
+
 				let formData = new FormData();
 				formData.append("content",content);
 				formData.append("file",$("#file")[0].files[0]);
@@ -164,6 +162,51 @@
 					}
 				})
 				
+			});
+			
+			$(".comment-btn").on('click',function(){
+				let userId = $(this).data("user-id");
+				
+				if(!userId){
+					alert("로그인을 해주세요.");
+					location.href="/user/sign-in-view"
+					return;
+				}
+				
+				let postId = $(this).data("post-id");
+				
+				// 1) 이전 태그 값 가져오기
+				// let content = $(this).prev().val().trim();
+			
+				// 2) 형제 태그 중 input값 가져오기
+				let content = $(this).siblings().val().trim();
+
+				if(!content){
+					alert("댓글을 입력해주세요")
+					return;
+				}
+				
+				console.log(postId);
+				console.log(content);
+				
+				$.ajax({
+					method:"post"
+					,url:"/comment/create"
+					,data:{"content":content , "postId":postId}
+					,success:function(data){
+						if(data.code == 200){
+							alert(data.result);
+							location.reload();
+						} else{
+							alert(data.error_message);
+							location.href="/user/sign-in-view";
+						}
+					}
+					,error:function(e){
+						alert("에러 발생")
+					}
+					
+				}); 
 			});
 			
 		});
