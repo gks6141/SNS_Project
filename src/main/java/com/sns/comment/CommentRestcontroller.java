@@ -1,7 +1,6 @@
 package com.sns.comment;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sns.comment.bo.CommentBO;
-import com.sns.comment.domain.Comment;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,9 +29,6 @@ public class CommentRestcontroller {
 		
 		Integer userId = (Integer)session.getAttribute("userId");
 		Map<String,Object> result= new HashMap<>();
-		List<Comment> comments = commentBO.getCommentByPostId();
-		
-		model.addAttribute("comments", comments);
 		
 		if(userId == null) {
 			result.put("code", 403);
@@ -50,4 +45,11 @@ public class CommentRestcontroller {
 		
 		
 	}
+	
+	@RequestMapping("/delete")
+	public Map<String ,Object> deleteComment(int id){
+	
+		Map<String ,Object> result = new HashMap<>();
+	}
+	
 }

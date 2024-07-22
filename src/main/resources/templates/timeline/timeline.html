@@ -23,13 +23,13 @@
 	
 		<!-- 타임라인 영역 -->
 		<div class="timeline-box my-5">
-			<div th:each="post : ${postList}" class="card border w-100 mt-3">
+			<div th:each="cardView : ${cardViewList}" class="card border w-100 mt-3">
 			
 				
 				<!-- 헤드 -->
 				<div class="headbox d-flex justify-content-between align-items-center p-2">
-					<span class="font-weight-bold" th:text="${post.userId}">marobiana</span>
-					<a  th:if="${session.userId == post.userId}" href="#"  class="more-btn">
+					<span class="font-weight-bold" th:text="${cardView.user.loginId}"></span>
+					<a  th:if="${session.userId == cardView.post.userId}" href="#"  class="more-btn">
 						<img width="30" alt="메뉴" src="/image/more-icon.png">
 					</a>
 				</div>
@@ -37,7 +37,7 @@
 				
 				<!-- 올린 사진 -->
 				<div class="card-img">
-					<img alt="사진" th:src="${post.imagePath}" class="w-100">
+					<img alt="사진" th:src="${cardView.post.imagePath}" class="w-100">
 				</div>
 				
 				<!-- 좋아요 -->
@@ -50,8 +50,8 @@
 				
 				<!-- 글 -->
 				<div class="card-post m-3">
-					<span th:text="${post.userId}" class="font-weight-bold"></span>
-					<span th:text="${post.content}"></span>
+					<span th:text="${cardView.user.loginId}" class="font-weight-bold"></span>
+					<span th:text="${cardView.post.content}"></span>
 				</div>
 				
 				<!-- 댓글 제목 -->
@@ -61,21 +61,19 @@
 				
 				<!-- 댓글 -->
 				<div class="card-comment-list m-2"> 
-					<div class="card-comment m-1" th:each="comment :${comments}">
-						<th:block th:if="${post.id == comment.postId}">
-							<span th:text="${comment.userId}" class="font-weight-bold">작성자</span>
-							<span th:text="${comment.comment}" >글</span>
-							<a href="#" class="comment-del-btn">
+					<div class="card-comment m-1" th:each="commentView : ${cardView.CommentList}">
+							<span class="font-weight-bold" th:text="${commentView.user.loginId}">작성자</span>
+							<span th:text="${commentView.comment.content}">글</span>
+							<a th:if="${session.userId == commentView.user.Id}" href="#" class="comment-del-btn">
 								<img alt="취소" src="/image/x-icon.png" width="10" height="10">
 							</a>
-						</th:block>
 					</div>
 				</div>
 				
 				<!-- 댓글 달기 -->
 				<div class="comment-write d-flex border-top mt-2">
 					<input type="text" name="comment"  class="comment form-control border-0 mr-2" placeholder="댓글 달기">
-					<button type="button" class="comment-btn btn btn-light" th:data-post-id="${post.id}" th:data-user-id="${session.userId}">게시</button>
+					<button type="button" class="comment-btn btn btn-light" th:data-post-id="${cardView.post.id}" th:data-user-id="${session.userId}">게시</button>
 				</div>
 			</div>
 	
