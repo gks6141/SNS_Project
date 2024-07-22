@@ -20,7 +20,9 @@ public class TimelineController {
 	@GetMapping("/timeline/timeline-view")
 	public String timelineView(Model model) {
 		//DB 가져오기
-		List<PostEntity> postList = postBO.getPostEntityList(); 
+		List<PostEntity> postList = postBO.getPostEntityList();
+		
+		
 		//model넘기기
 		model.addAttribute("postList",postList);
 		

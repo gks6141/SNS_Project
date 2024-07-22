@@ -21,4 +21,16 @@
 	 	,NOW()
 	 )
 	 </insert>
+	 
+	 <select id="selectCommentByPostId" resultType="com.sns.comment.domain.Comment">
+	 SELECT
+	 	`id`
+	 	,`userId`
+	 	,`postId`
+	 	,`content`
+	 	,`createdAt`
+		,`updatedAt`
+	 FROM
+	 	`comment`
+	 </select>
  </mapper>

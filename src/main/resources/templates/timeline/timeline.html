@@ -61,12 +61,14 @@
 				
 				<!-- 댓글 -->
 				<div class="card-comment-list m-2"> 
-					<div class="card-comment m-1">
-						<span class="font-weight-bold">작성자</span>
-						<span>글</span>
-						<a href="#" class="comment-del-btn">
-							<img alt="취소" src="/image/x-icon.png" width="10" height="10">
-						</a>
+					<div class="card-comment m-1" th:each="comment :${comments}">
+						<th:block th:if="${post.id == comment.postId}">
+							<span th:text="${comment.userId}" class="font-weight-bold">작성자</span>
+							<span th:text="${comment.comment}" >글</span>
+							<a href="#" class="comment-del-btn">
+								<img alt="취소" src="/image/x-icon.png" width="10" height="10">
+							</a>
+						</th:block>
 					</div>
 				</div>
 				
@@ -206,7 +208,7 @@
 						alert("에러 발생")
 					}
 					
-				}); 
+				});
 			});
 			
 		});
