@@ -35,4 +35,12 @@
 	 WHERE
 	 	`postId`=#{postId}
 	 </select>
+	 
+	 <delete id="deleteComment" parameterType="com.sns.comment.domain.Comment">
+	 DELETE FROM
+	 	`comment`
+	 WHERE
+	 	`id`=#{id}
+	 </delete>
+	 
  </mapper>
