@@ -30,7 +30,9 @@ public class TimelineBO {
 	
 	@Autowired
 	private LikeBO likeBO;
-	// input: 
+	
+	
+	// input: userId(로그인 된 사람 번 
 	// output: List<cardView>
 	
 	public List<CardView> generateCardViewList(Integer userId){
@@ -59,7 +61,7 @@ public class TimelineBO {
 				
 				// 좋아요 클릭 여부
 				
-				Boolean heart = likeBO.heartToggle(userId, card.getPost().getId());
+				boolean heart = likeBO.heartLikeByPostIdUserId(userId, card.getPost().getId());
 				card.setHeart(heart);
 				System.out.println(heart);
 				

@@ -43,7 +43,7 @@
 				<!-- 좋아요 -->
 				<div class="card-like mt-3">
 					<a href="#" th:data-post-id="${cardView.post.id}" class="like-btn">
-						<img th:if="${cardView.heart != true}" alt="좋아요" src="/image/heart-icon.png" width="30" >
+ 						<img th:if="${cardView.heart != true}" alt="좋아요" src="/image/heart-icon.png" width="30" >
 						<img th:unless="${cardView.heart != true}" alt="꽉찬 하트" src="/image/full-heart-icon.png" width="30">
 					</a>
 					<span th:text="|좋아요 ${cardView.like}개|">좋아요 11개</span>

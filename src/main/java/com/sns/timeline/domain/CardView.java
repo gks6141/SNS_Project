@@ -24,5 +24,6 @@ public class CardView {
 	private int like;
 	// 좋아요 클릭 여부
 	private Boolean heart;
+
 	
 }
