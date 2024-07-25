@@ -29,7 +29,7 @@
 				<!-- 헤드 -->
 				<div class="headbox d-flex justify-content-between align-items-center p-2">
 					<span class="font-weight-bold" th:text="${cardView.user.loginId}"></span>
-					<a th:if="${session.userId == cardView.post.userId}" href="#"  class="more-btn">
+					<a th:if="${session.userId == cardView.post.userId}" href="#" th:data-post-id="${cardView.post.id}" class="more-btn" data-toggle="modal" data-target="#Modal">
 						<img width="30" alt="메뉴" src="/image/more-icon.png">
 					</a>
 				</div>
@@ -77,8 +77,23 @@
 					<button type="button" class="comment-btn btn btn-light" th:data-post-id="${cardView.post.id}" th:data-user-id="${session.userId}">게시</button>
 				</div>
 			</div>
-	
 		</div>
+
+				<!-- Modal: 타임리프 레이아웃 떄문에 안쪽에 위치 -->
+				<div class="modal fade" id="Modal">
+				<!--  modal-sm: 작은 모달창 , modal-dialog-centered: 수직 가운데 위치 -->
+				  <div class="modal-dialog modal-sm modal-dialog-centered">
+				    <div class="modal-content text-center">
+				    	<div class="py-3">
+							<a href="#" id="postDeleteBtn">삭제하기</a>
+						</div>
+						<div class="py-3 border-top">
+							<a href="#" data-dismiss="modal">취소</a>
+						</div>
+				    </div>
+				  </div>
+				</div>
+		
 	</div>
 </section>
 
@@ -211,7 +226,6 @@
 			});
 			
 			$(".comment-del-btn").on('click',function(){
-				
 				let commentId = $(this).data("comment-id")
 				
 				$.ajax({
@@ -229,6 +243,7 @@
 					}	
 				});
 			});
+			
 			$(".like-btn").on('click',function(){
 				let postId = $(this).data("post-id")
 				
@@ -249,6 +264,38 @@
 					}
 				});
 			});
+			
+			//더보기(...) a 태그 클릭 => 모달 띄우기, 모달에 글번호 심어 놓기
+			$(".more-btn").on('click', function(e){
+				e.preventDefault();//a태그 위로 올라감 방지
+				let postId = $(this).data("post-id"); //getting
+				//alert(postId);
+				
+				//1개만 존재하는 modal을 재활용하기 위해 data-post-id를 심어 놓는다.
+				$(".modal").data('post-id',postId); //setting
+				//alert($("#modal").data("post-id"));
+			});
+			
+			$("#postDeleteBtn").on('click',function(e){
+				e.preventDefault();
+				let postId= $(".modal").data("post-id");
+				//alert(postId);
+				
+				$.ajax({
+					method:"delete"
+					,url:"/timeline/post/delete"
+					,data:{"postId":postId}
+					,success:function(data){
+						if(data.code == 200){
+							location.reload(); // 새로 고침 => 타임라인 화면 뿌려질예정
+						}
+					}
+					,error:function(e){
+						alert("에러발생");
+					}
+				});
+			});
+			
 		});
     </script>
 </th:block>

@@ -19,6 +19,7 @@ public interface CommentMapper {
 	
 	public void deleteComment(int id);
 	
-	
+	public void deleteCommentByPostId( 
+			@Param("postId") int postId);
 	
 }

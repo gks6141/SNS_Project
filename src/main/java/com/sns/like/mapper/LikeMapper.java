@@ -33,4 +33,7 @@ public interface LikeMapper {
 	public int selectLikeCountByPostIdOrUserId(
 			@Param("userId") Integer userId,
 			@Param("postId")int postId);
+	
+	public void deleteLikeByPostId(
+			@Param("postId")int postId);
 }
